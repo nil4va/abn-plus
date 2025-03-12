@@ -1,6 +1,10 @@
 <template>
   <div class="show-header">
-    <img :src="show.image?.original || show.image?.medium" :alt="show.name" class="show-poster" />
+    <img
+      :src="show.image?.original || show.image?.medium || noImage"
+      :alt="show.name"
+      class="show-poster"
+    />
     <ShowInfo :show="show" />
   </div>
 </template>
@@ -8,6 +12,7 @@
 <script setup lang="ts">
 import type { Show } from '@/types/show'
 import ShowInfo from '@/components/ShowDetail/ShowInfo.vue'
+import noImage from '@/assets/No-Image-Placeholder.png'
 
 defineProps<{ show: Show }>()
 </script>

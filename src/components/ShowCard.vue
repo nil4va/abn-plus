@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Show } from '../types/show'
+import noImage from '@/assets/No-Image-Placeholder.png'
 
 defineProps<{
   show: Show
@@ -9,7 +10,7 @@ defineProps<{
 <template>
   <router-link :to="{ name: 'show', params: { id: show.id } }" class="show-card-link">
     <div class="show-card">
-      <img :src="show.image?.medium" :alt="show.name" />
+      <img :src="show.image?.medium || noImage" :alt="show.name" />
       <div class="show-info">
         <h3 class="show-name">{{ show.name }}</h3>
         <p class="show-rating">⭐ {{ show.rating.average || 'N/A' }}</p>
