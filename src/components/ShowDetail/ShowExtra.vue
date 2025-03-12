@@ -2,7 +2,7 @@
   <div class="show-extra">
     <div><strong>Premiered:</strong> {{ show.premiered }}</div>
     <div><strong>Ended:</strong> {{ show.ended || 'Ongoing' }}</div>
-    <div>
+    <div v-if="show?.schedule?.days?.length && show.schedule?.time">
       <strong>Schedule:</strong>
       {{ show.schedule?.days.join(', ') }} at {{ show.schedule?.time }}
     </div>

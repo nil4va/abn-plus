@@ -1,6 +1,6 @@
 <template>
   <div class="show-meta">
-    <div><strong>Rating:</strong> ⭐ {{ show.rating || 'N/A' }}/10</div>
+    <div><strong>Rating:</strong> ⭐ {{ show.rating.average || '?' }}/10</div>
     <div><strong>Runtime:</strong> {{ show.runtime }} min</div>
     <div><strong>Language:</strong> {{ show.language }}</div>
   </div>

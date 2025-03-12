@@ -1,39 +1,54 @@
 <template>
   <div>
-    <input
-      v-model="localQuery"
-      @input="updateQuery"
-      type="text"
-      id="search"
-      placeholder="Search for a show"
-      class="search-input"
-    />
+    <div>
+      <input
+        v-model="localQuery"
+        @input="updateQuery"
+        type="text"
+        id="search"
+        placeholder="Search for a show"
+        class="search-input"
+      />
 
-    <div v-if="isLoading" class="loading">Loading...</div>
-    <div v-if="error" class="error">{{ error }}</div>
-
-    <ul v-if="!isLoading && shows.length">
-      <li v-for="show in shows" :key="show.id">
-        <h3>{{ show.name }}</h3>
-        <p>{{ show.genres.join(', ') }}</p>
-      </li>
-    </ul>
-    <div v-else-if="!isLoading && !shows.length && localQuery.length">No results found</div>
+      <div v-if="isLoading" class="loading">Loading...</div>
+      <div v-if="error" class="error">{{ error }}</div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useShowSearch } from '@/composables/useShowSearch'
+import { useSearchStore } from '@/stores/useSearchStore'
+import type { Show } from '@/types/show'
 
-const localQuery = ref('')
+const searchStore = useSearchStore()
+const { showsResult, isLoading, error, searchShows } = useShowSearch()
 
-const { shows, isLoading, error } = useShowSearch()
+const localQuery = ref(searchStore.query)
 
-const emit = defineEmits(['update:query'])
+const emit = defineEmits(['updateFilteredShows', 'update:query'])
 
 const updateQuery = () => {
   emit('update:query', localQuery.value)
+  searchStore.setQuery(localQuery.value)
+}
+
+watch(localQuery, async (newQuery) => {
+  await searchShows(newQuery)
+
+  searchStore.setShowsResult(showsResult.value)
+
+  searchStore.setLoading(false)
+
+  if (showsResult.value.length > 0) {
+    const filteredShows = showsResult.value.map((item: Show) => item)
+    emit('updateFilteredShows', filteredShows)
+  }
+})
+
+if (searchStore.showsResult.length > 0) {
+  emit('updateFilteredShows', searchStore.showsResult)
 }
 </script>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 import { useFetchShows } from '../composables/useFetchShows'
 import type { Show } from '../types/show'
 
@@ -7,11 +7,15 @@ import GenreSection from '@/components/GenreSection.vue'
 import SortOptions from '@/components/SortOptions.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import { useShowSearch } from '@/composables/useShowSearch'
+import { useSearchStore } from '@/stores/useSearchStore'
 
-const { fetchShows, showsByGenre } = useFetchShows()
+const { showsByGenre } = useFetchShows()
 const { searchShows } = useShowSearch()
+const searchStore = useSearchStore()
+
 const selectedSort = ref('ratingHighLow')
-const query = ref('')
+const query = ref(searchStore.query)
+const filteredShows = ref<Show[]>([])
 
 const sortedGenres = computed(() => {
   const sorted: Record<string, Show[]> = {}
@@ -40,13 +44,19 @@ const sortedGenres = computed(() => {
   return sorted
 })
 
-onMounted(async () => {
-  await fetchShows()
+watchEffect(async () => {
+  try {
+    if (query.value) {
+      await searchShows(query.value)
+    }
+  } catch (error) {
+    console.error('Error during search:', error)
+  }
 })
 
-watch(query, (newQuery) => {
-  searchShows(newQuery)
-})
+const updateFilteredShows = (newFilteredShows: Show[]) => {
+  filteredShows.value = newFilteredShows
+}
 </script>
 
 <template>
@@ -58,12 +68,21 @@ watch(query, (newQuery) => {
       </div>
       <div class="bottom-header">
         <h3>Discover your next favorite show</h3>
-        <SearchBar v-model:query="query" />
+        <SearchBar v-model:query="query" @updateFilteredShows="updateFilteredShows" />
       </div>
     </header>
 
     <main>
-      <div v-for="(shows, genre) in sortedGenres" :key="genre">
+      <div>
+        <div v-if="query && filteredShows.length > 0" class="filtered-shows-section">
+          <GenreSection genre="Search Results:" :shows="filteredShows" />
+        </div>
+        <div v-if="query && filteredShows.length === 0">
+          <p>No shows found.</p>
+        </div>
+      </div>
+
+      <div v-for="(shows, genre) in sortedGenres" :key="genre" class="genre-section-container">
         <GenreSection :genre="genre" :shows="shows" />
       </div>
     </main>
@@ -99,6 +118,17 @@ watch(query, (newQuery) => {
 .header h3 {
   font-weight: 400;
   margin: 0;
+}
+
+.filtered-shows-section {
+  margin-bottom: 20px;
+  background-color: #1f1f1f;
+  border-radius: 20px;
+  padding: 10px 20px;
+}
+
+.genre-section-container {
+  margin-bottom: 20px;
 }
 
 @media (max-width: 600px) {

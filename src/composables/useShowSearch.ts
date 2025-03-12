@@ -1,9 +1,10 @@
 import { ref, type Ref } from 'vue'
 import { searchShowsByName } from '../services/api'
 import type { Show } from '../types/show'
+import type { ShowData } from '../types/showData'
 
 export const useShowSearch = () => {
-  const shows = ref<Show[]>([])
+  const showsResult = ref<Show[]>([])
   const isLoading = ref(false)
   const error: Ref<null | unknown> = ref(null)
 
@@ -13,7 +14,7 @@ export const useShowSearch = () => {
     error.value = ''
     try {
       const response = await searchShowsByName(query)
-      shows.value = response.data
+      showsResult.value = response.data.map((result: ShowData) => result.show)
     } catch (err) {
       error.value = 'An error occurred while searching shows.'
     } finally {
@@ -22,7 +23,7 @@ export const useShowSearch = () => {
   }
 
   return {
-    shows,
+    showsResult,
     isLoading,
     error,
     searchShows,

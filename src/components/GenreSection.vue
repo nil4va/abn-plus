@@ -21,17 +21,20 @@ defineProps<{
 .genre-section {
   margin-bottom: 40px;
 }
+
 .genre-title {
   font-size: 1.5rem;
   margin-bottom: 10px;
   color: #fff;
 }
+
 .shows-row {
   display: flex;
   overflow-x: auto;
   gap: 15px;
   padding-bottom: 10px;
 }
+
 .shows-row::-webkit-scrollbar {
   display: none;
 }
