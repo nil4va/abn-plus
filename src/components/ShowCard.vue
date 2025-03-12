@@ -1,26 +1,22 @@
-<template>
-  <div class="show-card">
-    <img
-      :src="show.image?.medium || 'https://via.placeholder.com/210x295?text=No+Image'"
-      :alt="show.name"
-    />
-    <div class="show-info">
-      <h3 class="show-name">{{ show.name }}</h3>
-      <p class="show-rating">⭐ {{ show.rating.average || 'N/A' }}</p>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
+import type { Show } from '../types/show'
+
 defineProps<{
-  show: {
-    id: number
-    name: string
-    rating: { average: number | null }
-    image: { medium: string } | null
-  }
+  show: Show
 }>()
 </script>
+
+<template>
+  <router-link :to="{ name: 'show', params: { id: show.id } }" class="show-card-link">
+    <div class="show-card">
+      <img :src="show.image?.medium" :alt="show.name" />
+      <div class="show-info">
+        <h3 class="show-name">{{ show.name }}</h3>
+        <p class="show-rating">⭐ {{ show.rating.average || 'N/A' }}</p>
+      </div>
+    </div>
+  </router-link>
+</template>
 
 <style scoped>
 .show-card {
@@ -50,5 +46,35 @@ defineProps<{
 .show-rating {
   font-size: 0.9rem;
   color: #bbb;
+}
+
+.show-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .show-card {
+    width: 100px;
+    height: 100%;
+  }
+
+  .show-card img {
+    height: 100px;
+  }
+
+  .show-name {
+    font-size: 0.9rem;
+  }
+
+  .show-rating {
+    font-size: 0.8rem;
+  }
+
+  .show-card-link {
+    padding: 0;
+    bottom: 0;
+  }
 }
 </style>

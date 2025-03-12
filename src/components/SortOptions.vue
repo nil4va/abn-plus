@@ -69,4 +69,30 @@ const handleChange = (event: Event) => {
   border-color: #888;
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
+
+@media (max-width: 600px) {
+  .sort-container {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .sort-dropdown {
+    min-width: 150px;
+    font-size: 0.9rem;
+    padding: 8px 35px 8px 12px;
+  }
+
+  .sort-container label {
+    font-size: 0.9rem;
+  }
+
+  label {
+    display: none !important;
+  }
+
+  .sort-container::after {
+    content: '';
+  }
+}
 </style>

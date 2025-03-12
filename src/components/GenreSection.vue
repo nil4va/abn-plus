@@ -9,15 +9,11 @@
 
 <script setup lang="ts">
 import ShowCard from './ShowCard.vue'
+import type { Show } from '../types/show'
 
 defineProps<{
   genre: string
-  shows: Array<{
-    id: number
-    name: string
-    rating: { average: number | null }
-    image: { medium: string } | null
-  }>
+  shows: Show[]
 }>()
 </script>
 

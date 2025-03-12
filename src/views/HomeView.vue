@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useFetchShows } from '../composables/useFetchShows'
 import type { Show } from '../types/show'
 
 import GenreSection from '@/components/GenreSection.vue'
 import SortOptions from '@/components/SortOptions.vue'
+import SearchBar from '@/components/SearchBar.vue'
+import { useShowSearch } from '@/composables/useShowSearch'
 
 const { fetchShows, showsByGenre } = useFetchShows()
+const { searchShows } = useShowSearch()
 const selectedSort = ref('ratingHighLow')
+const query = ref('')
 
 const sortedGenres = computed(() => {
   const sorted: Record<string, Show[]> = {}
@@ -39,21 +43,30 @@ const sortedGenres = computed(() => {
 onMounted(async () => {
   await fetchShows()
 })
+
+watch(query, (newQuery) => {
+  searchShows(newQuery)
+})
 </script>
 
 <template>
   <div class="app">
     <header class="header">
-      <h1>Welcome to ABN+</h1>
+      <div class="top-header">
+        <h1>Welcome to ABN+</h1>
+        <SortOptions v-model:selectedSort="selectedSort" />
+      </div>
       <div class="bottom-header">
         <h3>Discover your next favorite show</h3>
-        <SortOptions v-model:selectedSort="selectedSort" />
+        <SearchBar v-model:query="query" />
       </div>
     </header>
 
-    <div v-for="(shows, genre) in sortedGenres" :key="genre">
-      <GenreSection :genre="genre" :shows="shows" />
-    </div>
+    <main>
+      <div v-for="(shows, genre) in sortedGenres" :key="genre">
+        <GenreSection :genre="genre" :shows="shows" />
+      </div>
+    </main>
   </div>
 </template>
 
@@ -72,7 +85,8 @@ onMounted(async () => {
   gap: 10px;
 }
 
-.bottom-header {
+.bottom-header,
+.top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -85,5 +99,31 @@ onMounted(async () => {
 .header h3 {
   font-weight: 400;
   margin: 0;
+}
+
+@media (max-width: 600px) {
+  .header h1 {
+    font-size: 1.2rem;
+  }
+
+  .header h3 {
+    display: none;
+  }
+
+  .bottom-header {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .bottom-header > * {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .app {
+    padding: 5px;
+  }
 }
 </style>
