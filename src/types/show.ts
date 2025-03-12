@@ -7,7 +7,7 @@ export type Show = {
   runtime: number | null
   premiered: string | null
   ended: string | null
-  summary: string
+  summary: string | null
   officialSite: string | null
 
   schedule: {

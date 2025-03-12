@@ -1,9 +1,9 @@
 <template>
-  <p class="show-summary" v-html="summary"></p>
+  <p class="show-summary" v-html="summary || 'No summary available.'"></p>
 </template>
 
 <script setup lang="ts">
-defineProps<{ summary: string }>()
+defineProps<{ summary: string | null }>()
 </script>
 
 <style scoped>

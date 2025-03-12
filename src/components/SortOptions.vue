@@ -20,7 +20,9 @@ const emit = defineEmits(['update:selectedSort'])
 
 const handleChange = (event: Event) => {
   const value = (event.target as HTMLSelectElement).value
-  emit('update:selectedSort', value)
+  if (value !== props.selectedSort) {
+    emit('update:selectedSort', value)
+  }
 }
 </script>
 
