@@ -3,9 +3,9 @@ import { ref, computed, watchEffect } from 'vue'
 import { useFetchShows } from '../composables/useFetchShows'
 import type { Show } from '../types/show'
 
-import GenreSection from '@/components/GenreSection.vue'
-import SortOptions from '@/components/SortOptions.vue'
-import SearchBar from '@/components/SearchBar.vue'
+import GenreSection from '@/components/HomeView/GenreSection.vue'
+import SortOptions from '@/components/HomeView/SortOptions.vue'
+import SearchBar from '@/components/HomeView/SearchBar.vue'
 import { useShowSearch } from '@/composables/useShowSearch'
 import { useSearchStore } from '@/stores/useSearchStore'
 
@@ -76,9 +76,6 @@ const updateFilteredShows = (newFilteredShows: Show[]) => {
       <div>
         <div v-if="query && filteredShows.length > 0" class="filtered-shows-section">
           <GenreSection genre="Search Results:" :shows="filteredShows" />
-        </div>
-        <div v-if="query && filteredShows.length === 0">
-          <p>No shows found.</p>
         </div>
       </div>
 

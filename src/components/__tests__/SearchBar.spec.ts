@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest'
 import { mount } from '@vue/test-utils'
-import SearchBar from '@/components/SearchBar.vue'
+import SearchBar from '@/components/HomeView/SearchBar.vue'
 import { useShowSearch } from '@/composables/useShowSearch'
 import { useSearchStore } from '@/stores/useSearchStore'
 import type { Show } from '../../types/show'
@@ -91,6 +91,8 @@ describe('SearchBar', () => {
   })
 
   it('emits updateFilteredShows when showsResult has items', async () => {
+    vi.useFakeTimers()
+
     const shows: Show[] = [
       {
         id: 1,
@@ -117,6 +119,11 @@ describe('SearchBar', () => {
     const input = wrapper.get('input#search')
     await input.setValue('Breaking')
 
+    vi.advanceTimersByTime(400)
+
+    await wrapper.vm.$nextTick()
+
+    await Promise.resolve()
     await wrapper.vm.$nextTick()
 
     expect(mockUseShowSearch.searchShows).toHaveBeenCalledWith('Breaking')
@@ -125,6 +132,8 @@ describe('SearchBar', () => {
 
     expect(wrapper.emitted('updateFilteredShows')).toBeTruthy()
     expect(wrapper.emitted('updateFilteredShows')![0]).toEqual([shows])
+
+    vi.useRealTimers()
   })
 
   it('renders input field with placeholder', () => {

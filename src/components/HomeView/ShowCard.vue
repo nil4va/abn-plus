@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Show } from '../types/show'
+import type { Show } from '../../types/show'
 import noImage from '@/assets/No-Image-Placeholder.png'
 
 defineProps<{

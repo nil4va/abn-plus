@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import SortOptions from '@/components/SortOptions.vue'
+import SortOptions from '@/components/HomeView/SortOptions.vue'
 
 describe('SortOptions.vue', () => {
   it('renders the correct initial selected sort option', () => {

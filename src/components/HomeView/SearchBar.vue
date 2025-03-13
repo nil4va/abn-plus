@@ -11,6 +11,10 @@
       />
 
       <div v-if="isLoading" class="loading">Loading...</div>
+      <div v-if="localQuery && !isLoading && !error && showsResult.length === 0" class="no-results">
+        No shows found
+      </div>
+
       <div v-if="error" class="error">{{ error }}</div>
     </div>
   </div>
@@ -21,6 +25,7 @@ import { ref, watch } from 'vue'
 import { useShowSearch } from '@/composables/useShowSearch'
 import { useSearchStore } from '@/stores/useSearchStore'
 import type { Show } from '@/types/show'
+import debounce from 'lodash/debounce'
 
 const searchStore = useSearchStore()
 const { showsResult, isLoading, error, searchShows } = useShowSearch()
@@ -34,17 +39,20 @@ const updateQuery = () => {
   searchStore.setQuery(localQuery.value)
 }
 
-watch(localQuery, async (newQuery) => {
+const debouncedSearch = debounce(async (newQuery: string) => {
   await searchShows(newQuery)
 
   searchStore.setShowsResult(showsResult.value)
-
   searchStore.setLoading(false)
 
   if (showsResult.value.length > 0) {
     const filteredShows = showsResult.value.map((item: Show) => item)
     emit('updateFilteredShows', filteredShows)
   }
+}, 400)
+
+watch(localQuery, (newQuery) => {
+  debouncedSearch(newQuery)
 })
 
 if (searchStore.showsResult.length > 0) {
@@ -113,6 +121,13 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+.no-results {
+  color: #f0f0f0;
+  margin-top: 10px;
+  font-size: 1rem;
+  font-style: italic;
 }
 
 @media (max-width: 600px) {
