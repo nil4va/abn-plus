@@ -11,7 +11,10 @@
       />
 
       <div v-if="isLoading" class="loading">Loading...</div>
-      <div v-if="localQuery && !isLoading && !error && showsResult.length === 0" class="no-results">
+      <div
+        v-if="!isLoading && !error && showsResult.length === 0 && filteredShows.length !== 0"
+        class="no-results"
+      >
         No shows found
       </div>
 
@@ -29,6 +32,7 @@ import debounce from 'lodash/debounce'
 
 const searchStore = useSearchStore()
 const { showsResult, isLoading, error, searchShows } = useShowSearch()
+const filteredShows = ref<Show[]>([])
 
 const localQuery = ref(searchStore.query)
 
@@ -46,8 +50,8 @@ const debouncedSearch = debounce(async (newQuery: string) => {
   searchStore.setLoading(false)
 
   if (showsResult.value.length > 0) {
-    const filteredShows = showsResult.value.map((item: Show) => item)
-    emit('updateFilteredShows', filteredShows)
+    filteredShows.value = showsResult.value
+    emit('updateFilteredShows', filteredShows.value)
   }
 }, 400)
 
