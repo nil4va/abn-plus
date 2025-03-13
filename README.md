@@ -11,8 +11,6 @@
 
 <p align="center"><img src="src/assets/Home.png" width="80%" height="80%"></p>
 
-![Dashboard Screenshot](src/assets/Home.png)
-
 ### <p align="center">2️⃣ Searched Shows</p>
 
 <p>When searching for a specific show, the first ten results that closely match your search term will be displayed. When you navigate to another page and return to the dashboard, your searched shows will still be displayed, as the search term is stored using Pinia.</p>
