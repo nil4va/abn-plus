@@ -21,7 +21,7 @@ defineProps<{ genres: string[] }>()
   border-radius: 999px;
   font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.063rem;
 }
 
 @media (max-width: 600px) {

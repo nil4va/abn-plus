@@ -23,7 +23,7 @@ defineProps<{ show: Show }>()
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .show-title {

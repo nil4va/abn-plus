@@ -1,9 +1,7 @@
 <template>
-  <div class="genre-section">
-    <h2 class="genre-title">{{ genre }}</h2>
-    <div class="shows-row">
-      <ShowCard v-for="show in shows" :key="show.id" :show="show" />
-    </div>
+  <h2 class="genre-title">{{ genre }}</h2>
+  <div class="shows-row">
+    <ShowCard v-for="show in shows" :key="show.id" :show="show" />
   </div>
 </template>
 
@@ -18,21 +16,16 @@ defineProps<{
 </script>
 
 <style scoped>
-.genre-section {
-  margin-bottom: 40px;
-}
-
 .genre-title {
   font-size: 1.5rem;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
   color: #fff;
 }
 
 .shows-row {
   display: flex;
   overflow-x: auto;
-  gap: 15px;
-  padding-bottom: 10px;
+  gap: 1rem;
 }
 
 .shows-row::-webkit-scrollbar {

@@ -1,6 +1,6 @@
 <template>
   <div class="sort-container">
-    <label for="sort">Sort by:</label>
+    <label for="sort">Sort:</label>
     <select :value="props.selectedSort" @change="handleChange" id="sort" class="sort-dropdown">
       <option disabled value="">-- Select --</option>
       <option value="ratingHighLow">Rating: High → Low</option>
@@ -30,63 +30,62 @@ const handleChange = (event: Event) => {
 .sort-container {
   display: flex;
   align-items: center;
-  gap: 10px;
   position: relative;
 }
+
 .sort-container::after {
   content: '▼';
   position: absolute;
-  right: 20px;
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
   color: #f0f0f0;
   pointer-events: none;
   font-size: 0.8rem;
 }
+
 .sort-container label {
   font-weight: 500;
-  margin-right: 10px;
+  margin-right: 1rem;
   color: #f0f0f0;
 }
+
 .sort-dropdown {
   appearance: none;
   background-color: #2c2c2c;
   color: #f0f0f0;
-  padding: 10px 40px 10px 15px;
+  padding: 1rem;
   font-size: 1rem;
-  border: 1px solid #444;
-  border-radius: 8px;
+  border: 0.0625rem solid #444;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  min-width: 200px;
-
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  min-width: 12.5rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.3);
 }
+
 .sort-dropdown:hover {
   border-color: #888;
 }
+
 .sort-dropdown:focus {
   outline: none;
   border-color: #888;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.3);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 37.5rem) {
   .sort-container {
     flex-direction: column;
-    gap: 15px;
+    gap: 1rem;
     align-items: flex-start;
   }
 
   .sort-dropdown {
-    min-width: 150px;
+    min-width: 9.375rem;
     font-size: 0.9rem;
-    padding: 8px 35px 8px 12px;
-  }
-
-  .sort-container label {
-    font-size: 0.9rem;
+    padding: 1rem;
   }
 
   label {

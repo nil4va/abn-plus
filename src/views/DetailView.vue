@@ -1,5 +1,6 @@
 <template>
   <div class="show-detail-container-wrapper">
+    <button id="return" @click="router.push('/')">➜</button>
     <div v-if="show">
       <ShowDetailContainer :show="show" />
     </div>
@@ -12,6 +13,9 @@ import { computed, ref, watchEffect } from 'vue'
 import { useFetchShows } from '@/composables/useFetchShows'
 import ShowDetailContainer from '../components/ShowDetail/ShowDetailContainer.vue'
 import type { Show } from '@/types/show'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const props = defineProps<{ id: number }>()
 
@@ -41,6 +45,22 @@ watchEffect(async () => {
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+#return {
+  font-size: 5rem;
+  color: gray;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+  transform: rotate(180deg);
+}
+
+#return:hover {
+  transform: scale(1.05) rotate(180deg);
 }
 
 .loading {

@@ -15,7 +15,7 @@ defineProps<{ show: Show }>()
 <style scoped>
 .show-meta {
   display: flex;
-  gap: 20px;
+  gap: 1.25rem;
   flex-wrap: wrap;
   font-size: 0.9rem;
   color: #ddd;

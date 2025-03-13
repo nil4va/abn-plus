@@ -23,7 +23,7 @@ defineProps<{ show: Show }>()
 
 <style scoped>
 .show-links {
-  margin-top: 16px;
+  margin-top: 1rem;
   display: flex;
   gap: 10px;
   flex-wrap: wrap;

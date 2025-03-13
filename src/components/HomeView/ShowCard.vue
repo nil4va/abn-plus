@@ -29,9 +29,12 @@ defineProps<{
   transition: transform 0.3s ease;
   cursor: pointer;
 }
+
 .show-card:hover {
   transform: scale(1.05);
+  z-index: 1;
 }
+
 .show-card img {
   width: 100%;
   height: 295px;
@@ -40,10 +43,12 @@ defineProps<{
 .show-info {
   padding: 10px;
 }
+
 .show-name {
   font-size: 1rem;
   margin: 0;
 }
+
 .show-rating {
   font-size: 0.9rem;
   color: #bbb;
@@ -58,7 +63,7 @@ defineProps<{
 @media (max-width: 600px) {
   .show-card {
     width: 100px;
-    height: 100%;
+    height: 85%;
   }
 
   .show-card img {

@@ -18,7 +18,7 @@ defineProps<{ show: Show }>()
   max-width: 1000px;
   margin: 40px auto;
   background: linear-gradient(135deg, #1f1c2c, #928dab);
-  border-radius: 16px;
+  border-radius: 1rem;
   color: #fff;
   padding: 30px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
